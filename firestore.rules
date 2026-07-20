@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global safety net - Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Hardened global helpers
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    
+    function incoming() { 
+      return request.resource.data; 
+    }
+    
+    function existing() { 
+      return resource.data; 
+    }
+    
+    function isSignedIn() { 
+      return request.auth != null; 
+    }
+
+    // 2. Leads rules
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) 
+        && isValidLead(incoming()) 
+        && incoming().createdAt == request.time;
+        
+      allow read, list, update, delete: if isSignedIn();
+    }
+
+    function isValidLead(data) {
+      return data.keys().hasAll(['name', 'email', 'company', 'volume', 'score', 'playbook', 'status', 'createdAt'])
+        && (data.keys().size() == 8 || (data.keys().size() == 9 && data.keys().hasAll(['message'])))
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && data.company is string && data.company.size() > 0 && data.company.size() <= 150
+        && data.volume is string && data.volume.size() > 0 && data.volume.size() <= 50
+        && data.score is number && data.score >= 0 && data.score <= 100
+        && data.playbook is string && data.playbook.size() > 0 && data.playbook.size() <= 150
+        && data.status is string && data.status.size() > 0 && data.status.size() <= 50
+        && (!('message' in data) || (data.message is string && data.message.size() <= 1000));
+    }
+
+    // 3. Trials rules
+    match /trials/{trialId} {
+      allow create: if isValidId(trialId) 
+        && isValidTrial(incoming()) 
+        && incoming().createdAt == request.time;
+        
+      allow read, list, update, delete: if isSignedIn();
+    }
+
+    function isValidTrial(data) {
+      return data.keys().hasAll(['name', 'email', 'company', 'crm', 'volume', 'voice', 'welcomeMsg', 'createdAt'])
+        && data.keys().size() == 8
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && data.company is string && data.company.size() > 0 && data.company.size() <= 150
+        && data.crm is string && data.crm.size() > 0 && data.crm.size() <= 50
+        && data.volume is string && data.volume.size() > 0 && data.volume.size() <= 50
+        && data.voice is string && data.voice.size() > 0 && data.voice.size() <= 50
+        && data.welcomeMsg is string && data.welcomeMsg.size() > 0 && data.welcomeMsg.size() <= 1000;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Inbound lead inquiry submitted from the contact page form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the lead submitter" },
+        "email": { "type": "string", "description": "The work email of the lead" },
+        "company": { "type": "string", "description": "The name of the company" },
+        "volume": { "type": "string", "description": "Monthly lead volume tier" },
+        "message": { "type": "string", "description": "The user's inquiry message" },
+        "score": { "type": "number", "description": "The automated lead priority score" },
+        "playbook": { "type": "string", "description": "The assigned automated nurture playbook" },
+        "status": { "type": "string", "description": "The current status of the dispatch trigger" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "email", "company", "volume", "score", "playbook", "status", "createdAt"]
+    },
+    "Trial": {
+      "title": "Trial",
+      "description": "Trial configuration parameters deployed for a sandbox agent",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The developer/admin name" },
+        "email": { "type": "string", "description": "The contact email" },
+        "company": { "type": "string", "description": "Company URL or name" },
+        "crm": { "type": "string", "description": "The targeted CRM platform for syncing" },
+        "volume": { "type": "string", "description": "Configured volume capacity parameter" },
+        "voice": { "type": "string", "description": "The synthetic speaking voice personality" },
+        "welcomeMsg": { "type": "string", "description": "The welcome message for the automated agent" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "email", "company", "crm", "volume", "voice", "welcomeMsg", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Collection of all submitted client/lead inquiries"
+    },
+    "/trials/{trialId}": {
+      "schema": "Trial",
+      "description": "Collection of all created sandbox agent configs"
+    }
+  }
+}

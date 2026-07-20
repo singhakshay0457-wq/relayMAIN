@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  --color-brand-bg: #0B0B0F;
+  --color-brand-surface: #131317;
+  --color-brand-surface-elevated: #16161D;
+  
+  --color-electric-blue: #548dff;
+  --color-electric-cyan: #00eefc;
+  --color-brand-primary: #afc6ff;
+  --color-brand-text-muted: #8c90a0;
+  --color-brand-tertiary: #ffb68f;
+}
+
+body {
+  background-color: var(--color-brand-bg);
+  color: #e4e1e7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for premium dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom visual effects */
+.glass-card {
+  background: rgba(22, 22, 29, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(175, 198, 255, 0.35);
+  background: rgba(22, 22, 29, 0.88);
+}
+
+.primary-gradient-bg {
+  background: linear-gradient(135deg, #548dff 0%, #00eefc 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #afc6ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-glow {
+  box-shadow: 0 0 25px rgba(0, 238, 252, 0.15);
+}
+
+/* Active navigation link indicator */
+.nav-active {
+  color: #afc6ff;
+  border-bottom: 2px solid #548dff;
+}
+
+/* Simulated interactive lead notification toast */
+@keyframes slide-in-up {
+  from {
+    transform: translateY(100px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   High-Contrast Light Mode Accessibility Overrides
+   ========================================================================== */
+.light {
+  /* Override core theme color custom properties */
+  --color-brand-bg: #F9FAFB;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-surface-elevated: #F3F4F6;
+  
+  --color-electric-blue: #1D4ED8;
+  --color-electric-cyan: #0369A1;
+  --color-brand-primary: #1D4ED8;
+  --color-brand-text-muted: #374151; /* high-contrast grey text */
+  --color-brand-tertiary: #C2410C;
+}
+
+/* Redefine base body elements for high contrast light mode */
+.light body {
+  background-color: #F9FAFB !important;
+  color: #111827 !important;
+}
+
+/* Force light mode text colors for headers and typical text elements */
+.light h1, 
+.light h2, 
+.light h3, 
+.light h4, 
+.light h5, 
+.light h6,
+.light .text-white,
+.light #nav-logo-btn span {
+  color: #111827 !important;
+}
+
+.light p,
+.light span.text-brand-text-muted,
+.light .text-brand-text-muted {
+  color: #374151 !important;
+}
+
+/* Refine high-contrast button styles inside light mode */
+.light .hover\:text-white:hover {
+  color: #111827 !important;
+}
+
+/* Adjust standard card styles */
+.light .glass-card {
+  background: #FFFFFF !important;
+  border-color: #D1D5DB !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+.light .glass-card:hover {
+  border-color: #9CA3AF !important;
+  background: #F9FAFB !important;
+}
+
+/* Ensure text-gradients remain readable and elegant in light mode */
+.light .text-gradient {
+  background: linear-gradient(135deg, #111827 0%, #1D4ED8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Overrides for common background transparency styling */
+.light .bg-white\/5 {
+  background-color: #E5E7EB !important;
+}
+.light .bg-white\/10 {
+  background-color: #D1D5DB !important;
+}
+.light .border-white\/5 {
+  border-color: #E5E7EB !important;
+}
+.light .border-white\/10 {
+  border-color: #D1D5DB !important;
+}
+.light .border-white\/20 {
+  border-color: #9CA3AF !important;
+}
+
+/* Fixed header navigation in light mode */
+.light nav {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: #E5E7EB !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Mobile drawer and lists */
+.light .md\:hidden {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #E5E7EB !important;
+}
+
+/* Lead Simulator & terminal adjustments */
+.light .bg-\[\#050507\] {
+  background-color: #F3F4F6 !important;
+  border-color: #D1D5DB !important;
+}
+.light .bg-\[\#050507\]\/60 {
+  background-color: #F9FAFB !important;
+}
+.light .bg-\[\#09090b\] {
+  background-color: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+.light .text-emerald-400 {
+  color: #047857 !important; /* high-contrast dark green */
+}
+.light .text-electric-cyan {
+  color: #0369A1 !important;
+}
+.light .text-electric-blue {
+  color: #1D4ED8 !important;
+}
+
+/* Adjust primary button gradients */
+.light .primary-gradient-bg {
+  background: linear-gradient(135deg, #2563EB 0%, #0284C7 100%) !important;
+  color: #FFFFFF !important;
+}
+
+/* Dialog & Modals */
+.light .bg-brand-surface\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #E5E7EB !important;
+}
+.light .bg-[#0b0b0f]/80 {
+  background-color: rgba(17, 24, 39, 0.45) !important;
+}
+
+/* Hide animations & WebGL canvas elements to prevent distraction in light mode */
+.light #shader-canvas-ANIMATION_3 {
+  display: none !important;
+}
+
+/* Scrollbar tweaks */
+.light ::-webkit-scrollbar-track {
+  background: #F9FAFB;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
