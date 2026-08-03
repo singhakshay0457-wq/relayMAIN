@@ -328,115 +328,23 @@ export default function HomePage({ onStartTrial, onNavigateToMarketing }: HomePa
           </p>
         </div>
 
-        {/* Hero CTAs requested: Book a Free Strategy Call & View Our Services */}
+        {/* Hero CTA requested: Book a Free Strategy Call */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <button
-            onClick={() => handleScrollTo('book-consultation')}
+            onClick={() => handleScrollTo('schedule')}
             className="w-full sm:w-auto primary-gradient-bg text-black font-sans text-sm font-black uppercase tracking-wider px-9 py-4.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-electric-blue/25 cursor-pointer flex items-center justify-center gap-2.5"
             id="hero-strategy-call-btn"
           >
             <span>Book a Free Strategy Call</span>
             <ArrowRight className="w-5 h-5" />
           </button>
-
-          <button
-            onClick={() => handleScrollTo('services')}
-            className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-sans text-sm font-bold uppercase tracking-wider px-8 py-4.5 rounded-xl border border-white/15 transition-all cursor-pointer flex items-center justify-center gap-2"
-            id="hero-view-services-btn"
-          >
-            <span>View Our Services</span>
-            <ArrowDown className="w-4 h-4 text-electric-cyan" />
-          </button>
         </div>
 
 
       </section>
 
-
       {/* ==========================================
-          2. SERVICES SECTION (9 Requested Icons/Cards)
-         ========================================== */}
-      <section id="services" className="space-y-12 pt-8">
-        <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-widest text-electric-cyan font-bold px-3.5 py-1 bg-electric-cyan/10 rounded-full border border-electric-cyan/20">
-            End-To-End Growth Capabilities
-          </span>
-          <h2 className="font-sans font-black text-3xl sm:text-5xl text-white tracking-tight">
-            Our Core Services
-          </h2>
-          <p className="text-sm sm:text-base text-brand-text-muted leading-relaxed">
-            Everything your business needs to generate high-intent leads, present a world-class brand, and automate sales conversations.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {servicesList.map((srv, idx) => (
-            <div 
-              key={idx} 
-              className="glass-card p-7 rounded-2xl space-y-4 border border-white/10 hover:border-electric-cyan/40 transition-all duration-300 group hover:-translate-y-1 bg-[#06070D]"
-            >
-              <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-xl bg-electric-cyan/10 border border-electric-cyan/20 flex items-center justify-center text-electric-cyan text-xl group-hover:scale-110 transition-transform">
-                  <span>{srv.emoji}</span>
-                </div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-electric-cyan font-bold px-2.5 py-1 rounded-md bg-white/5 border border-white/10">
-                  {srv.tag}
-                </span>
-              </div>
-
-              <h3 className="font-sans font-bold text-xl text-white group-hover:text-electric-cyan transition-colors">
-                {srv.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-brand-text-muted leading-relaxed">
-                {srv.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-
-      {/* ==========================================
-          3. HOW WE WORK (4 Steps)
-         ========================================== */}
-      <section id="how-we-work" className="space-y-12 pt-8">
-        <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-widest text-electric-cyan font-bold px-3.5 py-1 bg-electric-cyan/10 rounded-full border border-electric-cyan/20">
-            Our Proven Growth Framework
-          </span>
-          <h2 className="font-sans font-black text-3xl sm:text-5xl text-white tracking-tight">
-            How We Work
-          </h2>
-          <p className="text-sm sm:text-base text-brand-text-muted leading-relaxed">
-            A structured four-phase process designed for speed, clarity, and rapid business scaling.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {processSteps.map((p, idx) => (
-            <div key={idx} className="glass-card p-7 rounded-2xl border border-white/10 space-y-4 relative bg-[#06070E] flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-3xl font-black text-electric-cyan opacity-80">{p.number}</span>
-                  <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-electric-cyan">
-                    <p.icon className="w-4 h-4" />
-                  </div>
-                </div>
-                <h3 className="font-sans font-bold text-lg text-white">{p.title}</h3>
-                <p className="text-xs text-brand-text-muted leading-relaxed">{p.desc}</p>
-              </div>
-
-              <div className="pt-2 border-t border-white/5 text-[10px] font-mono text-electric-cyan font-bold uppercase tracking-wider">
-                Phase {p.number} Milestone
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ==========================================
-          4. CALENDAR MEETING SCHEDULER SECTION
+          CALENDAR MEETING SCHEDULER SECTION
          ========================================== */}
       <section id="schedule" className="pt-8 space-y-6">
         <MeetingScheduler />

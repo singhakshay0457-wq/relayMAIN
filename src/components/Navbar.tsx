@@ -101,17 +101,7 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
 
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={onStartTrial}
-            className="primary-gradient-bg text-black font-sans text-xs font-extrabold uppercase tracking-wider px-5 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-md shadow-electric-blue/20 cursor-pointer flex items-center gap-1.5"
-            id="nav-cta-btn"
-          >
-            <span>Book Demo</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+
 
         {/* Mobile menu button */}
         <div className="lg:hidden flex items-center gap-2">
@@ -158,16 +148,7 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
 
 
           </div>
-          <div className="pt-4 border-t border-white/10">
-            <button
-              onClick={() => { onStartTrial(); setMobileMenuOpen(false); }}
-              className="w-full text-center primary-gradient-bg text-black font-sans text-xs font-black uppercase tracking-wider py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-electric-blue/20"
-              id="mobile-nav-cta-btn"
-            >
-              <span>Book Demo</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+
         </div>
       )}
     </nav>

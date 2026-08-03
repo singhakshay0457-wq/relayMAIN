@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { ActivePage } from '../types';
-import { Mail, Check, Terminal, Linkedin, Instagram, Facebook, Twitter, ArrowUpRight } from 'lucide-react';
+import { Mail, Check, Terminal, Instagram, Facebook, Twitter, ArrowUpRight } from 'lucide-react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { notifyNewSubscriber } from '../lib/notificationService';
 
 interface FooterProps {
   onPageChange: (page: ActivePage, initialTab?: 'security' | 'privacy' | 'terms' | 'about') => void;
@@ -9,10 +12,39 @@ interface FooterProps {
 export default function Footer({ onPageChange }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
+
+    setLoading(true);
+    const subscriberEmail = email.trim();
+
+    // 1. Save to LocalStorage
+    try {
+      const existing = JSON.parse(localStorage.getItem('relay_subscribers') || '[]');
+      existing.push({ email: subscriberEmail, timestamp: new Date().toISOString() });
+      localStorage.setItem('relay_subscribers', JSON.stringify(existing));
+    } catch (err) {
+      console.warn('LocalStorage save warning:', err);
+    }
+
+    // 2. Save to Firebase Firestore database in 'subscribers' collection
+    try {
+      await addDoc(collection(db, 'subscribers'), {
+        email: subscriberEmail,
+        createdAt: new Date().toISOString(),
+        serverCreatedAt: serverTimestamp()
+      });
+    } catch (err) {
+      console.warn('Firestore subscriber save warning:', err);
+    }
+
+    // 3. Dispatch Email Notification directly to singhakshay0457@gmail.com
+    notifyNewSubscriber(subscriberEmail).catch(err => console.warn('Subscriber notification error:', err));
+
+    setLoading(false);
     setSubscribed(true);
     setEmail('');
     setTimeout(() => setSubscribed(false), 5000);
@@ -29,7 +61,7 @@ export default function Footer({ onPageChange }: FooterProps) {
   return (
     <footer className="w-full bg-[#050507] border-t border-white/10 mt-20 relative z-10 text-white">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pb-12 border-b border-white/10">
           
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
@@ -59,88 +91,17 @@ export default function Footer({ onPageChange }: FooterProps) {
 
             {/* Social & Direct Contact Icons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a href="https://wa.me/?text=Hi%20Relay%20AI%20Technologies,%20I'd%20like%20to%20inquire%20about%20your%20AI%20marketing%20and%20automation%20solutions." target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors" aria-label="WhatsApp Us">
-                <span>WhatsApp Us</span>
+              <a href="https://wa.me/917390099764?text=Hi%20Relay%20AI%20Technologies,%20I'd%20like%20to%20inquire%20about%20your%20AI%20marketing%20and%20automation%20solutions." target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors" aria-label="WhatsApp Us">
+                <span>WhatsApp (+91 7390099764)</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
               <a href="mailto:sales@relayaitechnologies.com" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Email Us">
                 <Mail className="w-4 h-4 text-electric-cyan" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/relayaitechnologies?igsh=N3IyMXVna3B6aWZk" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
             </div>
-          </div>
-
-          {/* Navigation Links Column */}
-          <div className="space-y-3">
-            <h4 className="font-sans text-xs font-bold text-white uppercase tracking-wider text-electric-cyan">
-              Navigation
-            </h4>
-            <ul className="space-y-2 text-xs text-brand-text-muted">
-              <li>
-                <button onClick={() => onPageChange('home')} className="hover:text-white transition-colors cursor-pointer">
-                  Home
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('about')} className="hover:text-white transition-colors cursor-pointer">
-                  About
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('contact')} className="hover:text-white transition-colors cursor-pointer">
-                  Contact
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('schedule')} className="hover:text-white transition-colors cursor-pointer text-electric-cyan font-semibold">
-                  Schedule Meeting
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold text-white uppercase tracking-wider text-electric-cyan">
-              Company
-            </h4>
-            <ul className="space-y-2 text-xs text-brand-text-muted">
-              <li>
-                <button onClick={() => handleScrollToSection('hero')} className="hover:text-white transition-colors">
-                  Home
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleScrollToSection('pricing')} className="hover:text-white transition-colors">
-                  Pricing Tiers
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('security', 'about')} className="hover:text-white transition-colors">
-                  About & Founder
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleScrollToSection('book-demo')} className="hover:text-white transition-colors">
-                  Contact & Book Demo
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('partnerships')} className="hover:text-white transition-colors text-electric-cyan font-bold">
-                  Agency &amp; Group Partnerships
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('security', 'security')} className="hover:text-white transition-colors">
-                  Trust &amp; Security Hub
-                </button>
-              </li>
-            </ul>
           </div>
 
           {/* Legal Column */}
@@ -194,9 +155,10 @@ export default function Footer({ onPageChange }: FooterProps) {
             </div>
             <button
               type="submit"
-              className="primary-gradient-bg text-black font-sans font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+              disabled={loading}
+              className="primary-gradient-bg text-black font-sans font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer whitespace-nowrap disabled:opacity-50"
             >
-              Get Updates
+              {loading ? 'Subscribing...' : 'Get Updates'}
             </button>
           </form>
         </div>
