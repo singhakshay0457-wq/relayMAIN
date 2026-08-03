@@ -18,11 +18,20 @@ import {
   ShieldCheck,
   CalendarDays,
   Plus,
-  Trash2
+  Trash2,
+  Phone,
+  Send,
+  Share2
 } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { MeetingBooking } from '../types';
+
+const WhatsappIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.99c-.002 5.45-4.437 9.887-9.885 9.887m0-18.067c-6.626 0-12.016 5.39-12.018 12.018a11.96 11.96 0 001.625 6.022L0 24l6.291-1.65a11.968 11.968 0 005.756 1.468h.005c6.627 0 12.018-5.39 12.02-12.018a11.963 11.963 0 00-3.518-8.497 11.963 11.963 0 00-8.504-3.518" />
+  </svg>
+);
 
 interface MeetingType {
   id: string;
@@ -115,14 +124,57 @@ export default function MeetingScheduler() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     company: '',
     notes: '',
     guestEmail: ''
   });
 
+  // Host WhatsApp Notification State
+  const [hostWhatsappPhone, setHostWhatsappPhone] = useState<string>(() => {
+    return localStorage.getItem('relay_host_whatsapp') || '+91 7390099764';
+  });
+  const [autoOpenWhatsapp, setAutoOpenWhatsapp] = useState<boolean>(true);
+  const [whatsappDispatched, setWhatsappDispatched] = useState<boolean>(false);
+
   const [submitting, setSubmitting] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState<MeetingBooking | null>(null);
   const [pastBookings, setPastBookings] = useState<MeetingBooking[]>([]);
+
+  // Update Host WhatsApp number in storage
+  const handleHostWhatsappChange = (newPhone: string) => {
+    setHostWhatsappPhone(newPhone);
+    try {
+      localStorage.setItem('relay_host_whatsapp', newPhone);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Helper to construct WhatsApp click-to-chat URL
+  const buildWhatsappUrl = (booking: MeetingBooking, targetPhone: string) => {
+    const cleanPhone = targetPhone.replace(/[^0-9]/g, '');
+    const messageText = 
+`🚨 *NEW MEETING SCHEDULED ON RELAY AI!* 📅
+
+👤 *Attendee:* ${booking.name}
+✉️ *Email:* ${booking.email}
+${booking.phone ? `📱 *Attendee WhatsApp/Phone:* ${booking.phone}\n` : ''}${booking.company ? `🏢 *Company:* ${booking.company}\n` : ''}
+📌 *Session:* ${booking.meetingType} (${booking.durationMinutes} min)
+📆 *Date & Time:* ${booking.dateString} at ${booking.timeSlot}
+🌍 *Timezone:* ${booking.timeZone}
+${booking.notes ? `📝 *Notes:* ${booking.notes}\n` : ''}
+🔗 *Google Meet:* https://meet.google.com/relay-growth-call`;
+
+    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageText)}`;
+  };
+
+  const openWhatsappDirect = (booking: MeetingBooking, phone: string = hostWhatsappPhone) => {
+    if (!phone) return;
+    const url = buildWhatsappUrl(booking, phone);
+    window.open(url, '_blank');
+    setWhatsappDispatched(true);
+  };
 
   // Load existing bookings
   useEffect(() => {
@@ -197,9 +249,11 @@ export default function MeetingScheduler() {
       timeZone: timeZone,
       name: formData.name,
       email: formData.email,
+      phone: formData.phone || '',
       company: formData.company || 'N/A',
       notes: formData.notes || '',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      whatsappSent: autoOpenWhatsapp
     };
 
     // Save to Firestore 'meetings' collection
@@ -225,6 +279,11 @@ export default function MeetingScheduler() {
       localStorage.setItem('relay_booked_meetings', JSON.stringify(updatedBookings));
     } catch (e) {
       console.error(e);
+    }
+
+    // Auto-open WhatsApp message directly to host WhatsApp number
+    if (autoOpenWhatsapp && hostWhatsappPhone) {
+      openWhatsappDirect(bookingPayload, hostWhatsappPhone);
     }
 
     setConfirmedBooking(bookingPayload);
@@ -616,6 +675,22 @@ END:VCALENDAR`;
                   </div>
 
                   <div>
+                    <label className="block text-[11px] font-mono text-slate-300 mb-1.5 uppercase font-semibold">Your Phone / WhatsApp Number</label>
+                    <div className="relative">
+                      <Phone className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+                      <input
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+1 (555) 000-0000"
+                        className="w-full bg-[#03050C] border border-white/15 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-electric-cyan placeholder:text-slate-600"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
                     <label className="block text-[11px] font-mono text-slate-300 mb-1.5 uppercase font-semibold">Add Guest Emails (Optional)</label>
                     <div className="relative">
                       <Plus className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
@@ -644,6 +719,39 @@ END:VCALENDAR`;
                   </div>
                 </div>
 
+                {/* Direct WhatsApp Notification Host Config */}
+                <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wide">
+                      <WhatsappIcon className="w-4 h-4 text-emerald-400" />
+                      <span>WhatsApp Direct Alert Settings</span>
+                    </span>
+                    <label className="flex items-center gap-2 cursor-pointer text-xs text-slate-300">
+                      <input
+                        type="checkbox"
+                        checked={autoOpenWhatsapp}
+                        onChange={(e) => setAutoOpenWhatsapp(e.target.checked)}
+                        className="rounded bg-black border-emerald-500/50 text-emerald-500 focus:ring-emerald-500 accent-emerald-500"
+                      />
+                      <span>Auto-send on book</span>
+                    </label>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <label className="text-[11px] font-mono text-slate-300 whitespace-nowrap">Send to Host WhatsApp #:</label>
+                    <input
+                      type="text"
+                      value={hostWhatsappPhone}
+                      onChange={(e) => handleHostWhatsappChange(e.target.value)}
+                      placeholder="+91 7390099764"
+                      className="w-full bg-black/80 border border-emerald-500/40 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-mono focus:outline-none focus:border-emerald-400 placeholder:text-slate-600"
+                    />
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-tight">
+                    When someone books a meeting, a complete formatted summary (Name, Email, Time slot &amp; Meet Link) will be dispatched directly to your WhatsApp!
+                  </p>
+                </div>
+
                 <div className="pt-3">
                   <button
                     type="submit"
@@ -651,7 +759,7 @@ END:VCALENDAR`;
                     className="w-full py-4 rounded-xl primary-gradient-bg text-black font-sans font-black text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-electric-blue/20 cursor-pointer flex items-center justify-center gap-2"
                   >
                     <CalendarDays className="w-4 h-4" />
-                    <span>{submitting ? 'Confirming & Registering Slot...' : 'Schedule Event & Send Calendar Invite'}</span>
+                    <span>{submitting ? 'Confirming & Registering Slot...' : 'Schedule Event & Dispatch WhatsApp Alert'}</span>
                   </button>
                 </div>
               </form>
@@ -697,6 +805,13 @@ END:VCALENDAR`;
                   </div>
                 </div>
 
+                {confirmedBooking.phone && (
+                  <div className="text-xs text-slate-300 pt-1 border-t border-white/5 flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Attendee Phone: <strong className="text-white font-mono">{confirmedBooking.phone}</strong></span>
+                  </div>
+                )}
+
                 <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
                   <span className="text-slate-400">Video Call Location:</span>
                   <a
@@ -711,11 +826,58 @@ END:VCALENDAR`;
                 </div>
               </div>
 
+              {/* Direct WhatsApp Message Status & Quick Dispatch Card */}
+              <div className="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 text-left space-y-3 shadow-lg shadow-emerald-500/10">
+                <div className="flex items-center justify-between border-b border-emerald-500/20 pb-2.5">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                    <WhatsappIcon className="w-5 h-5 text-emerald-400" />
+                    <span>WhatsApp Alert Dispatch Hub</span>
+                  </div>
+                  <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    Direct Message
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Meeting details (Name, Time, Zoom/Meet link, Notes) are formatted and prepared for WhatsApp recipient:
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <div className="relative flex-1">
+                    <Phone className="w-4 h-4 absolute left-3 top-2.5 text-emerald-400" />
+                    <input
+                      type="text"
+                      value={hostWhatsappPhone}
+                      onChange={(e) => handleHostWhatsappChange(e.target.value)}
+                      placeholder="+91 7390099764"
+                      className="w-full bg-black/90 border border-emerald-500/40 rounded-xl py-2 pl-9 pr-3 text-xs text-emerald-300 font-mono focus:outline-none focus:border-emerald-400 placeholder:text-slate-600"
+                    />
+                  </div>
+
+                  <button
+                    onClick={() => openWhatsappDirect(confirmedBooking, hostWhatsappPhone)}
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-sans font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer shrink-0"
+                  >
+                    <WhatsappIcon className="w-4 h-4" />
+                    <span>Send / Open in WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
+                  onClick={() => openWhatsappDirect(confirmedBooking, hostWhatsappPhone)}
+                  className="w-full py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-sans font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer"
+                >
+                  <WhatsappIcon className="w-4.5 h-4.5" />
+                  <span>Send Meeting Summary to WhatsApp</span>
+                </button>
+
+                <button
                   onClick={downloadIcsFile}
-                  className="w-full py-3 px-4 rounded-xl primary-gradient-bg text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg shadow-electric-blue/15 cursor-pointer"
+                  className="w-full py-3.5 px-4 rounded-xl primary-gradient-bg text-black font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all flex items-center justify-center gap-2 shadow-lg shadow-electric-blue/15 cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download .ics Invite</span>

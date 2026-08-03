@@ -9,9 +9,11 @@ export interface MeetingBooking {
   timeZone: string;
   name: string;
   email: string;
+  phone?: string;
   company?: string;
   notes?: string;
   createdAt?: any;
+  whatsappSent?: boolean;
 }
 
 export interface MarketingService {
