@@ -6,7 +6,6 @@ import {
 } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { notifyNewPartnership } from '../lib/notificationService';
 
 interface PartnershipsPageProps {
   onBookDemo: () => void;
@@ -38,16 +37,6 @@ export default function PartnershipsPage({ onBookDemo }: PartnershipsPageProps) 
         createdAt: serverTimestamp(),
         source: 'PartnershipsPage'
       });
-
-      // Dispatch Email Notification directly to singhakshay0457@gmail.com
-      notifyNewPartnership({
-        name: formData.contactName,
-        email: formData.email,
-        company: formData.companyName,
-        type: formData.partnerType,
-        message: formData.message || 'No additional message'
-      }).catch(err => console.warn('Partner notification error:', err));
-
       setSubmitSuccess(true);
       setFormData({
         partnerType: 'Agency Partner',

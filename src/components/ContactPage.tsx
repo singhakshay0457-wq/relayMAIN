@@ -4,7 +4,6 @@ import { FAQItem } from '../types';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType, auth } from '../lib/firebase';
 import { googleSignIn } from '../lib/gmailService';
-import { notifyNewContactMessage } from '../lib/notificationService';
 import { User as FirebaseUser } from 'firebase/auth';
 
 const FAQS: FAQItem[] = [
@@ -129,15 +128,6 @@ export default function ContactPage() {
           ...prev
         ]);
       }
-
-      // Dispatch Email Notification to singhakshay0457@gmail.com & Firestore
-      notifyNewContactMessage({
-        name: formData.name,
-        email: formData.email,
-        company: formData.company,
-        service: `Monthly Volume: ${formData.volume}`,
-        message: formData.message || 'No additional message'
-      }).catch(err => console.warn('Contact notification error:', err));
 
       setSubmitSuccess(true);
       setFormData({

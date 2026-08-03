@@ -23,7 +23,6 @@ import {
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { MeetingBooking } from '../types';
-import { notifyNewMeeting } from '../lib/notificationService';
 
 interface MeetingType {
   id: string;
@@ -218,9 +217,6 @@ export default function MeetingScheduler() {
         // Fallthrough to local persistence
       }
     }
-
-    // Dispatch Email Notification to singhakshay0457@gmail.com & Firestore
-    notifyNewMeeting(bookingPayload).catch(err => console.warn('Meeting notification error:', err));
 
     // Save to Local Storage
     const updatedBookings = [bookingPayload, ...pastBookings];

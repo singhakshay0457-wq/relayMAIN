@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { ActivePage } from '../types';
 import { Mail, Check, Terminal, Instagram, Facebook, Twitter, ArrowUpRight } from 'lucide-react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { notifyNewSubscriber } from '../lib/notificationService';
 
 interface FooterProps {
   onPageChange: (page: ActivePage, initialTab?: 'security' | 'privacy' | 'terms' | 'about') => void;
@@ -12,39 +9,10 @@ interface FooterProps {
 export default function Footer({ onPageChange }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const handleSubscribe = async (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-
-    setLoading(true);
-    const subscriberEmail = email.trim();
-
-    // 1. Save to LocalStorage
-    try {
-      const existing = JSON.parse(localStorage.getItem('relay_subscribers') || '[]');
-      existing.push({ email: subscriberEmail, timestamp: new Date().toISOString() });
-      localStorage.setItem('relay_subscribers', JSON.stringify(existing));
-    } catch (err) {
-      console.warn('LocalStorage save warning:', err);
-    }
-
-    // 2. Save to Firebase Firestore database in 'subscribers' collection
-    try {
-      await addDoc(collection(db, 'subscribers'), {
-        email: subscriberEmail,
-        createdAt: new Date().toISOString(),
-        serverCreatedAt: serverTimestamp()
-      });
-    } catch (err) {
-      console.warn('Firestore subscriber save warning:', err);
-    }
-
-    // 3. Dispatch Email Notification directly to singhakshay0457@gmail.com
-    notifyNewSubscriber(subscriberEmail).catch(err => console.warn('Subscriber notification error:', err));
-
-    setLoading(false);
     setSubscribed(true);
     setEmail('');
     setTimeout(() => setSubscribed(false), 5000);
@@ -155,10 +123,9 @@ export default function Footer({ onPageChange }: FooterProps) {
             </div>
             <button
               type="submit"
-              disabled={loading}
-              className="primary-gradient-bg text-black font-sans font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer whitespace-nowrap disabled:opacity-50"
+              className="primary-gradient-bg text-black font-sans font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
             >
-              {loading ? 'Subscribing...' : 'Get Updates'}
+              Get Updates
             </button>
           </form>
         </div>
