@@ -9,6 +9,7 @@ import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import LeadsPage from './components/LeadsPage';
 import SecurityPage from './components/SecurityPage';
+import PartnershipsPage from './components/PartnershipsPage';
 import TrialModal from './components/TrialModal';
 
 export default function App() {
@@ -64,6 +65,7 @@ export default function App() {
         )}
         {activePage === 'contact' && <ContactPage />}
         {activePage === 'leads' && <LeadsPage onBookDemo={handleStartTrial} />}
+        {activePage === 'partnerships' && <PartnershipsPage onBookDemo={handleStartTrial} />}
         {activePage === 'security' && <SecurityPage initialTab={securityTab} />}
       </main>
 

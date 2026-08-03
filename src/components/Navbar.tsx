@@ -107,6 +107,16 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
             Contact
           </button>
           <button
+            onClick={() => onPageChange('partnerships')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'partnerships' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            Partnerships
+          </button>
+          <button
             onClick={() => onPageChange('leads')}
             className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1 ${
               activePage === 'leads' 
@@ -177,6 +187,12 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
               className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
             >
               Contact
+            </button>
+            <button
+              onClick={() => { onPageChange('partnerships'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
+            >
+              Partnerships
             </button>
             <button
               onClick={() => { onPageChange('leads'); setMobileMenuOpen(false); }}

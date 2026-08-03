@@ -1,4 +1,4 @@
-export type ActivePage = 'home' | 'services' | 'industries' | 'about' | 'contact' | 'leads' | 'security';
+export type ActivePage = 'home' | 'services' | 'industries' | 'about' | 'contact' | 'leads' | 'security' | 'partnerships';
 
 export interface MarketingService {
   id: string;

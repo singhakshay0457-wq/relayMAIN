@@ -57,19 +57,20 @@ export default function Footer({ onPageChange }: FooterProps) {
               <a href="mailto:sales@relayaitechnologies.com" className="hover:underline font-bold">sales@relayaitechnologies.com</a>
             </div>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="LinkedIn">
+            {/* Social & Direct Contact Icons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a href="https://wa.me/?text=Hi%20Relay%20AI%20Technologies,%20I'd%20like%20to%20inquire%20about%20your%20AI%20marketing%20and%20automation%20solutions." target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors" aria-label="WhatsApp Us">
+                <span>WhatsApp Us</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+              <a href="mailto:sales@relayaitechnologies.com" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Email Us">
+                <Mail className="w-4 h-4 text-electric-cyan" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-brand-text-muted hover:text-white hover:bg-white/10 transition-colors" aria-label="X (Twitter)">
-                <Twitter className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -141,8 +142,13 @@ export default function Footer({ onPageChange }: FooterProps) {
                 </button>
               </li>
               <li>
+                <button onClick={() => onPageChange('partnerships')} className="hover:text-white transition-colors text-electric-cyan font-bold">
+                  Agency &amp; Group Partnerships
+                </button>
+              </li>
+              <li>
                 <button onClick={() => onPageChange('security', 'security')} className="hover:text-white transition-colors">
-                  Trust & Security Hub
+                  Trust &amp; Security Hub
                 </button>
               </li>
             </ul>
