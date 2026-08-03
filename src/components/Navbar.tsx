@@ -1,85 +1,138 @@
 import { ActivePage } from '../types';
-import { Menu, X, Terminal, Sun, Moon } from 'lucide-react';
+import { Menu, X, Terminal, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavbarProps {
   activePage: ActivePage;
   onPageChange: (page: ActivePage, initialTab?: 'security' | 'privacy' | 'terms' | 'about') => void;
   onStartTrial: () => void;
-  theme: 'dark' | 'light';
-  onToggleTheme: () => void;
+  onScrollToSection?: (sectionId: string) => void;
 }
 
-export default function Navbar({ activePage, onPageChange, onStartTrial, theme, onToggleTheme }: NavbarProps) {
+export default function Navbar({ activePage, onPageChange, onStartTrial, onScrollToSection }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems: { id: ActivePage; label: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'contact', label: 'Contact' },
-    { id: 'gmail', label: 'Gmail' },
-    { id: 'security', label: 'Trust Center' },
-  ];
+  const handleNavClick = (sectionId: string, pageId?: ActivePage) => {
+    if (pageId && pageId !== 'home') {
+      onPageChange(pageId);
+    } else {
+      if (activePage !== 'home') {
+        onPageChange('home');
+        setTimeout(() => {
+          const el = document.getElementById(sectionId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-brand-surface/75 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30 transition-all duration-300">
-      <div className="flex justify-between items-center px-6 md:px-12 py-4 max-w-7xl mx-auto">
-        {/* Brand Logo with status light */}
+    <nav className="fixed top-0 w-full z-50 bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-white/10 shadow-xl transition-all duration-300">
+      <div className="flex justify-between items-center px-6 md:px-12 py-3.5 max-w-7xl mx-auto">
+        {/* Brand Logo */}
         <div 
-          onClick={() => onPageChange('home')}
+          onClick={() => handleNavClick('hero', 'home')}
           className="flex items-center gap-3 cursor-pointer group"
           id="nav-logo-btn"
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded bg-gradient-to-br from-electric-blue to-electric-cyan p-0.5 shadow-md shadow-electric-blue/10">
-            <Terminal className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-electric-blue via-electric-cyan to-indigo-600 p-0.5 shadow-lg shadow-electric-blue/20 group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#0A0A0A] rounded-[10px] flex items-center justify-center">
+              <Terminal className="w-5 h-5 text-electric-cyan" />
+            </div>
           </div>
-          <span className="font-sans text-xl font-bold text-white tracking-tight group-hover:text-brand-primary transition-colors">
-            Relay AI
-          </span>
+          <div className="flex flex-col">
+            <span className="font-sans text-lg font-black text-white tracking-tight group-hover:text-electric-cyan transition-colors flex items-center gap-1.5">
+              Relay AI <span className="text-[10px] font-mono font-normal px-1.5 py-0.2 rounded bg-electric-blue/20 text-electric-cyan border border-electric-blue/30 uppercase tracking-widest hidden sm:inline-block">Tech</span>
+            </span>
+            <span className="text-[9px] font-mono text-brand-text-muted tracking-wider -mt-1 uppercase hidden sm:block">
+              Technologies
+            </span>
+          </div>
         </div>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => onPageChange(item.id)}
-              className={`relative py-1 font-sans text-sm font-medium transition-colors cursor-pointer hover:text-white ${
-                activePage === item.id
-                  ? 'text-brand-primary font-semibold border-b-2 border-brand-primary'
-                  : 'text-brand-text-muted'
-              }`}
-              id={`nav-link-${item.id}`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Desktop CTA & Theme Toggle */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-7">
           <button
-            onClick={onToggleTheme}
-            className="flex items-center justify-center p-2.5 rounded-lg bg-white/5 border border-white/10 text-brand-primary hover:text-white hover:bg-white/10 transition-all cursor-pointer"
-            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            aria-label="Toggle Theme"
+            onClick={() => onPageChange('home')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'home' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
           >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-indigo-500" />
-            )}
+            Home
           </button>
           <button
+            onClick={() => onPageChange('services')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'services' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            Services
+          </button>
+          <button
+            onClick={() => onPageChange('industries')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'industries' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            Industries
+          </button>
+          <button
+            onClick={() => onPageChange('about')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'about' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            About
+          </button>
+          <button
+            onClick={() => onPageChange('contact')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
+              activePage === 'contact' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            Contact
+          </button>
+          <button
+            onClick={() => onPageChange('leads')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1 ${
+              activePage === 'leads' 
+                ? 'text-electric-cyan font-extrabold' 
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <span className="w-1.5 h-1.5 bg-electric-cyan rounded-full animate-pulse"></span>
+            Enquiries
+          </button>
+        </div>
+
+        {/* Desktop CTA */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
             onClick={onStartTrial}
-            className="primary-gradient-bg text-black font-sans text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-lg hover:brightness-110 active:scale-95 transition-all shadow-md shadow-electric-blue/10 cursor-pointer"
+            className="primary-gradient-bg text-black font-sans text-xs font-extrabold uppercase tracking-wider px-5 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-md shadow-electric-blue/20 cursor-pointer flex items-center gap-1.5"
             id="nav-cta-btn"
           >
-            Start Free Trial
+            <span>Book Demo</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Mobile menu button */}
-        <div className="md:hidden">
+        <div className="lg:hidden flex items-center gap-2">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-brand-text-muted hover:text-white p-1 cursor-pointer"
@@ -93,55 +146,54 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, theme, 
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-brand-surface/95 backdrop-blur-2xl border-b border-white/10 px-6 py-6 space-y-4 animate-slide-in">
-          <div className="flex flex-col gap-4">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onPageChange(item.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`text-left py-2 font-sans text-base font-medium transition-colors ${
-                  activePage === item.id
-                    ? 'text-brand-primary font-semibold'
-                    : 'text-brand-text-muted'
-                }`}
-                id={`mobile-nav-link-${item.id}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div className="pt-4 border-t border-white/5 space-y-4">
+        <div className="lg:hidden bg-[#0A0A0A]/95 backdrop-blur-2xl border-b border-white/10 px-6 py-6 space-y-4 shadow-xl animate-slide-in">
+          <div className="flex flex-col gap-3">
             <button
-              onClick={() => {
-                onToggleTheme();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-center gap-2.5 py-3 rounded-lg bg-white/5 border border-white/10 text-brand-text-muted hover:text-white transition-all cursor-pointer font-sans text-sm font-bold uppercase tracking-wider"
+              onClick={() => { onPageChange('home'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
             >
-              {theme === 'dark' ? (
-                <>
-                  <Sun className="w-4 h-4 text-amber-400" />
-                  <span>Switch to Light Mode</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="w-4 h-4 text-indigo-500" />
-                  <span>Switch to Dark Mode</span>
-                </>
-              )}
+              Home
             </button>
             <button
-              onClick={() => {
-                onStartTrial();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full text-center primary-gradient-bg text-black font-sans text-sm font-bold uppercase tracking-wider py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all"
+              onClick={() => { onPageChange('services'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
+            >
+              Services
+            </button>
+            <button
+              onClick={() => { onPageChange('industries'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
+            >
+              Industries
+            </button>
+            <button
+              onClick={() => { onPageChange('about'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
+            >
+              About
+            </button>
+            <button
+              onClick={() => { onPageChange('contact'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
+            >
+              Contact
+            </button>
+            <button
+              onClick={() => { onPageChange('leads'); setMobileMenuOpen(false); }}
+              className="text-left py-2 font-sans font-bold text-sm text-electric-cyan hover:text-white uppercase tracking-wider flex items-center gap-2"
+            >
+              <span className="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></span>
+              Enquiries Console
+            </button>
+          </div>
+          <div className="pt-4 border-t border-white/10">
+            <button
+              onClick={() => { onStartTrial(); setMobileMenuOpen(false); }}
+              className="w-full text-center primary-gradient-bg text-black font-sans text-xs font-black uppercase tracking-wider py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-electric-blue/20"
               id="mobile-nav-cta-btn"
             >
-              Start Free Trial
+              <span>Book Demo</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -149,3 +201,4 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, theme, 
     </nav>
   );
 }
+

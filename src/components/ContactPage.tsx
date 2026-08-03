@@ -157,14 +157,41 @@ export default function ContactPage() {
       {/* Page Header */}
       <div className="text-center space-y-4 max-w-2xl mx-auto">
         <span className="text-[10px] font-mono uppercase tracking-widest text-brand-primary font-bold px-3 py-1 bg-white/5 rounded-full border border-white/10">
-          SECURE DISPATCH CHANNELS
+          START YOUR FREE TRIAL
         </span>
         <h1 className="font-sans font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
-          Connect with Relay AI
+          Boost Your Business with Relay AI
         </h1>
         <p className="text-sm sm:text-base text-brand-text-muted leading-relaxed">
-          Submit the form to test the pipeline. Watch your lead populate, score itself, and assign playbooks instantly in our sandbox on the right.
+          We handle your full marketing campaign so you <strong className="text-white">never miss another lead</strong>. Submit your details below or email us directly to get your queries answered in under 15 minutes.
         </p>
+
+        {/* Official Direct Email Contact Card */}
+        <div className="pt-2">
+          <div className="glass-card p-4 rounded-2xl border border-electric-cyan/30 bg-[#08070F] inline-flex flex-col sm:flex-row items-center gap-4 text-left shadow-lg shadow-electric-blue/10 max-w-lg">
+            <div className="w-10 h-10 rounded-xl bg-electric-cyan/10 border border-electric-cyan/20 flex items-center justify-center text-electric-cyan shrink-0">
+              <Mail className="w-5 h-5" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono uppercase text-brand-text-muted font-bold block">
+                Official Inquiries &amp; Sales Email:
+              </span>
+              <a 
+                href="mailto:sales@relayaitechnologies.com?subject=Relay%20AI%20Inquiry" 
+                className="font-mono text-sm sm:text-base text-white font-bold hover:text-electric-cyan transition-colors underline decoration-electric-cyan/50"
+              >
+                sales@relayaitechnologies.com
+              </a>
+            </div>
+            <a
+              href="mailto:sales@relayaitechnologies.com?subject=Relay%20AI%20Inquiry"
+              className="sm:ml-auto px-3.5 py-2 rounded-xl primary-gradient-bg text-black font-sans text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all shrink-0 flex items-center gap-1"
+            >
+              <span>Email Us</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Grid: Form on left, Simulated Inbox on right */}
@@ -173,7 +200,7 @@ export default function ContactPage() {
         <div className="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl space-y-6">
           <div className="flex items-center gap-2.5 text-brand-primary border-b border-white/5 pb-4">
             <MessageSquare className="w-5 h-5 text-electric-cyan" />
-            <h2 className="font-sans font-bold text-lg text-white">Lead Dispatch Form</h2>
+            <h2 className="font-sans font-bold text-lg text-white">Free Trial & Lead Intake Form</h2>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -251,13 +278,13 @@ export default function ContactPage() {
                   : 'primary-gradient-bg text-black hover:brightness-110 active:scale-95 shadow-md shadow-electric-blue/15'
               }`}
             >
-              {submitting ? 'Executing Dispatch Sync...' : 'Send Inbound Lead Inquiry'}
+              {submitting ? 'Activating Free Trial...' : 'Start Free Trial & Boost Marketing'}
             </button>
 
             {submitSuccess && (
               <div className="flex items-center gap-2 text-xs text-green-400 font-mono animate-slide-in p-3.5 rounded-lg bg-green-500/10 border border-green-500/20">
                 <Check className="w-4 h-4 shrink-0" />
-                <span>Success! Lead sent. Look at the Sandbox on the right to see telemetry scoring!</span>
+                <span>Success! Free Trial activated. Relay AI is ready to handle your marketing!</span>
               </div>
             )}
           </form>

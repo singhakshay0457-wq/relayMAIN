@@ -243,7 +243,7 @@ export default function SecurityPage({ initialTab = 'security' }: SecurityPagePr
                 5. Rights of the Data Subject
               </h3>
               <p>
-                Under global data frameworks (GDPR and CCPA), you are entitled to full ownership of your data. You may request absolute deletion of all your registered leads, sandbox configurations, and linked authorization sessions by contacting our support team at <span className="text-electric-cyan font-bold font-mono">singhakshay0457@gmail.com</span>. All such deletion requests are executed programmatically within 24 hours of confirmation.
+                Under global data frameworks (GDPR and CCPA), you are entitled to full ownership of your data. You may request absolute deletion of all your registered leads, sandbox configurations, and linked authorization sessions by contacting our support team at <span className="text-electric-cyan font-bold font-mono">sales@relayaitechnologies.com</span>. All such deletion requests are executed programmatically within 24 hours of confirmation.
               </p>
             </div>
           </div>
@@ -435,14 +435,14 @@ export default function SecurityPage({ initialTab = 'security' }: SecurityPagePr
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a 
-                href="mailto:singhakshay0457@gmail.com"
+                href="mailto:sales@relayaitechnologies.com"
                 className="p-5 rounded-2xl bg-[#050507]/60 border border-white/5 hover:border-white/10 transition-colors space-y-2 text-left block cursor-pointer group"
               >
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
                   <Mail className="w-4 h-4 text-electric-cyan group-hover:scale-110 transition-transform" />
                 </div>
-                <h4 className="font-sans font-bold text-xs text-white">Direct Email</h4>
-                <p className="text-[11px] font-mono text-brand-text-muted break-all">singhakshay0457@gmail.com</p>
+                <h4 className="font-sans font-bold text-xs text-white">Direct Sales & Inquiries Email</h4>
+                <p className="text-[11px] font-mono text-brand-text-muted break-all">sales@relayaitechnologies.com</p>
               </a>
 
               <div className="p-5 rounded-2xl bg-[#050507]/60 border border-white/5 space-y-2 text-left">

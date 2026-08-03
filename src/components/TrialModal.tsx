@@ -12,7 +12,7 @@ export default function TrialModal({ isOpen, onClose }: TrialModalProps) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: 'Relay Admin',
-    email: 'integration@relayaitechnologies.com',
+    email: 'sales@relayaitechnologies.com',
     company: 'https://relayaitechnologies.com',
     crm: 'HubSpot',
     volume: '500-1000',
@@ -169,7 +169,7 @@ export default function TrialModal({ isOpen, onClose }: TrialModalProps) {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="E.g., admin@relayaitechnologies.com"
+                    placeholder="E.g., sales@relayaitechnologies.com"
                     className="w-full bg-[#050507] border border-white/10 rounded-lg py-2.5 px-4 text-xs text-white focus:outline-none focus:border-brand-primary placeholder:text-brand-text-muted/40"
                   />
                 </div>

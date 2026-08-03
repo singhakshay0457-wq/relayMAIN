@@ -1,6 +1,6 @@
 {
-  "name": "Relay AI",
-  "description": "Autonomous marketing intelligence for the modern era. Relay AI responds instantly to every lead, qualifies customers, answers questions, follows up automatically, and books appointments 24/7.",
+  "name": "Relay AI Technologies",
+  "description": "Never Miss Another Lead. Autonomous AI agents, voice intelligence, and complete business marketing automation for high-growth enterprises.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

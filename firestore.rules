@@ -29,7 +29,7 @@ service cloud.firestore {
         && isValidLead(incoming()) 
         && incoming().createdAt == request.time;
         
-      allow read, list, update, delete: if isSignedIn();
+      allow read, update, delete: if isSignedIn();
     }
 
     function isValidLead(data) {
@@ -51,7 +51,7 @@ service cloud.firestore {
         && isValidTrial(incoming()) 
         && incoming().createdAt == request.time;
         
-      allow read, list, update, delete: if isSignedIn();
+      allow read, update, delete: if isSignedIn();
     }
 
     function isValidTrial(data) {
