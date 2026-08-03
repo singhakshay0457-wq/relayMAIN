@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, MessageSquare, Terminal, ChevronDown, Check, Sparkles, Server, ArrowRight } from 'lucide-react';
+import { Mail, MessageSquare, Terminal, ChevronDown, Check, Sparkles, Server, ArrowRight, CalendarDays, ExternalLink } from 'lucide-react';
 import { FAQItem } from '../types';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType, auth } from '../lib/firebase';
@@ -166,29 +166,59 @@ export default function ContactPage() {
           We handle your full marketing campaign so you <strong className="text-white">never miss another lead</strong>. Submit your details below or email us directly to get your queries answered in under 15 minutes.
         </p>
 
-        {/* Official Direct Email Contact Card */}
-        <div className="pt-2">
-          <div className="glass-card p-4 rounded-2xl border border-electric-cyan/30 bg-[#08070F] inline-flex flex-col sm:flex-row items-center gap-4 text-left shadow-lg shadow-electric-blue/10 max-w-lg">
+        {/* Official Direct Contact & Calendly Cards */}
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
+          {/* Email Card */}
+          <div className="glass-card p-4 rounded-2xl border border-electric-cyan/30 bg-[#08070F] flex-1 flex items-center gap-3 text-left shadow-lg shadow-electric-blue/10 w-full">
             <div className="w-10 h-10 rounded-xl bg-electric-cyan/10 border border-electric-cyan/20 flex items-center justify-center text-electric-cyan shrink-0">
               <Mail className="w-5 h-5" />
             </div>
-            <div className="space-y-0.5">
+            <div className="space-y-0.5 min-w-0 flex-1">
               <span className="text-[10px] font-mono uppercase text-brand-text-muted font-bold block">
-                Official Inquiries &amp; Sales Email:
+                Sales Email:
               </span>
               <a 
                 href="mailto:sales@relayaitechnologies.com?subject=Relay%20AI%20Inquiry" 
-                className="font-mono text-sm sm:text-base text-white font-bold hover:text-electric-cyan transition-colors underline decoration-electric-cyan/50"
+                className="font-mono text-xs sm:text-sm text-white font-bold hover:text-electric-cyan transition-colors underline decoration-electric-cyan/50 block truncate"
               >
                 sales@relayaitechnologies.com
               </a>
             </div>
             <a
               href="mailto:sales@relayaitechnologies.com?subject=Relay%20AI%20Inquiry"
-              className="sm:ml-auto px-3.5 py-2 rounded-xl primary-gradient-bg text-black font-sans text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all shrink-0 flex items-center gap-1"
+              className="px-3 py-2 rounded-xl primary-gradient-bg text-black font-sans text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all shrink-0 flex items-center gap-1"
             >
-              <span>Email Us</span>
+              <span>Email</span>
               <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* Calendly Card */}
+          <div className="glass-card p-4 rounded-2xl border border-blue-500/30 bg-[#060818] flex-1 flex items-center gap-3 text-left shadow-lg shadow-blue-500/10 w-full">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shrink-0">
+              <CalendarDays className="w-5 h-5" />
+            </div>
+            <div className="space-y-0.5 min-w-0 flex-1">
+              <span className="text-[10px] font-mono uppercase text-blue-300 font-bold block">
+                Calendly Live Booking:
+              </span>
+              <a 
+                href="https://calendly.com/singhakshay0457/sales-meeting" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs sm:text-sm text-white font-bold hover:text-blue-300 transition-colors underline decoration-blue-400/50 block truncate"
+              >
+                calendly.com/singhakshay0457/sales-meeting
+              </a>
+            </div>
+            <a
+              href="https://calendly.com/singhakshay0457/sales-meeting"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans text-xs font-bold uppercase tracking-wider transition-all shrink-0 flex items-center gap-1"
+            >
+              <span>Calendly</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
