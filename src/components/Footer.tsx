@@ -87,16 +87,6 @@ export default function Footer({ onPageChange }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => onPageChange('services')} className="hover:text-white transition-colors cursor-pointer">
-                  Services
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onPageChange('industries')} className="hover:text-white transition-colors cursor-pointer">
-                  Industries
-                </button>
-              </li>
-              <li>
                 <button onClick={() => onPageChange('about')} className="hover:text-white transition-colors cursor-pointer">
                   About
                 </button>
@@ -107,9 +97,8 @@ export default function Footer({ onPageChange }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => onPageChange('leads')} className="hover:text-white transition-colors cursor-pointer text-electric-cyan font-bold flex items-center gap-1">
-                  <span>Enquiries Console</span>
-                  <ArrowUpRight className="w-3 h-3 text-electric-cyan" />
+                <button onClick={() => onPageChange('schedule')} className="hover:text-white transition-colors cursor-pointer text-electric-cyan font-semibold">
+                  Schedule Meeting
                 </button>
               </li>
             </ul>

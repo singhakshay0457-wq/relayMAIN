@@ -32,6 +32,24 @@
         "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
       },
       "required": ["name", "email", "company", "crm", "volume", "voice", "welcomeMsg", "createdAt"]
+    },
+    "Meeting": {
+      "title": "Meeting",
+      "description": "Scheduled meeting booking consultation",
+      "type": "object",
+      "properties": {
+        "meetingType": { "type": "string", "description": "Type of meeting" },
+        "durationMinutes": { "type": "number", "description": "Duration in minutes" },
+        "dateString": { "type": "string", "description": "Date of meeting" },
+        "timeSlot": { "type": "string", "description": "Time slot selected" },
+        "timeZone": { "type": "string", "description": "User time zone" },
+        "name": { "type": "string", "description": "User full name" },
+        "email": { "type": "string", "description": "User work email" },
+        "company": { "type": "string", "description": "Company name" },
+        "notes": { "type": "string", "description": "Preparation notes" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["meetingType", "durationMinutes", "dateString", "timeSlot", "timeZone", "name", "email"]
     }
   },
   "firestore": {
@@ -42,6 +60,10 @@
     "/trials/{trialId}": {
       "schema": "Trial",
       "description": "Collection of all created sandbox agent configs"
+    },
+    "/meetings/{meetingId}": {
+      "schema": "Meeting",
+      "description": "Collection of scheduled meeting bookings"
     }
   }
 }

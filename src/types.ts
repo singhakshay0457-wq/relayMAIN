@@ -1,4 +1,18 @@
-export type ActivePage = 'home' | 'services' | 'industries' | 'about' | 'contact' | 'leads' | 'security' | 'partnerships';
+export type ActivePage = 'home' | 'about' | 'contact' | 'leads' | 'security' | 'partnerships' | 'schedule';
+
+export interface MeetingBooking {
+  id?: string;
+  meetingType: string;
+  durationMinutes: number;
+  dateString: string; // ISO or formatted date
+  timeSlot: string;
+  timeZone: string;
+  name: string;
+  email: string;
+  company?: string;
+  notes?: string;
+  createdAt?: any;
+}
 
 export interface MarketingService {
   id: string;

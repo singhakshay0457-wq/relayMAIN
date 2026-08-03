@@ -65,5 +65,11 @@ service cloud.firestore {
         && data.voice is string && data.voice.size() > 0 && data.voice.size() <= 50
         && data.welcomeMsg is string && data.welcomeMsg.size() > 0 && data.welcomeMsg.size() <= 1000;
     }
+
+    // 4. Meetings rules
+    match /meetings/{meetingId} {
+      allow create: if true;
+      allow read, update, delete: if isSignedIn();
+    }
   }
 }

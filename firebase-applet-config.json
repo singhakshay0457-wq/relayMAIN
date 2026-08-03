@@ -3,8 +3,9 @@
   "appId": "1:953318489183:web:043f4ebc4cbbb5b1542fea",
   "apiKey": "AIzaSyDsBbTu9YExO8-R0a0ev7fZvcCRgItDL8E",
   "authDomain": "phonic-tempo-w224x.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-relayai-3d611db5-f208-4e91-afc5-1ebcbbb7e36a",
   "storageBucket": "phonic-tempo-w224x.firebasestorage.app",
   "messagingSenderId": "953318489183",
-  "measurementId": ""
+  "measurementId": "",
+  "oAuthClientId": "953318489183-2joavh6m66hs5ml484am0dmi66vfsdhq.apps.googleusercontent.com",
+  "recaptchaSiteKey": ""
 }

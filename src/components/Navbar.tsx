@@ -67,26 +67,6 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
             Home
           </button>
           <button
-            onClick={() => onPageChange('services')}
-            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
-              activePage === 'services' 
-                ? 'text-electric-cyan font-extrabold' 
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            Services
-          </button>
-          <button
-            onClick={() => onPageChange('industries')}
-            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
-              activePage === 'industries' 
-                ? 'text-electric-cyan font-extrabold' 
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            Industries
-          </button>
-          <button
             onClick={() => onPageChange('about')}
             className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
               activePage === 'about' 
@@ -104,29 +84,21 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
                 : 'text-slate-300 hover:text-white'
             }`}
           >
-            Contact
+            Contact Us
           </button>
           <button
-            onClick={() => onPageChange('partnerships')}
-            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer ${
-              activePage === 'partnerships' 
+            onClick={() => onPageChange('schedule')}
+            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
+              activePage === 'schedule' 
                 ? 'text-electric-cyan font-extrabold' 
                 : 'text-slate-300 hover:text-white'
             }`}
           >
-            Partnerships
+            <span className="w-1.5 h-1.5 rounded-full bg-electric-cyan animate-pulse"></span>
+            <span>Schedule Meeting</span>
           </button>
-          <button
-            onClick={() => onPageChange('leads')}
-            className={`text-xs font-sans uppercase font-bold tracking-wider transition-colors cursor-pointer flex items-center gap-1 ${
-              activePage === 'leads' 
-                ? 'text-electric-cyan font-extrabold' 
-                : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <span className="w-1.5 h-1.5 bg-electric-cyan rounded-full animate-pulse"></span>
-            Enquiries
-          </button>
+
+
         </div>
 
         {/* Desktop CTA */}
@@ -165,18 +137,6 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
               Home
             </button>
             <button
-              onClick={() => { onPageChange('services'); setMobileMenuOpen(false); }}
-              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
-            >
-              Services
-            </button>
-            <button
-              onClick={() => { onPageChange('industries'); setMobileMenuOpen(false); }}
-              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
-            >
-              Industries
-            </button>
-            <button
               onClick={() => { onPageChange('about'); setMobileMenuOpen(false); }}
               className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
             >
@@ -186,21 +146,17 @@ export default function Navbar({ activePage, onPageChange, onStartTrial, onScrol
               onClick={() => { onPageChange('contact'); setMobileMenuOpen(false); }}
               className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
             >
-              Contact
+              Contact Us
             </button>
             <button
-              onClick={() => { onPageChange('partnerships'); setMobileMenuOpen(false); }}
-              className="text-left py-2 font-sans font-bold text-sm text-slate-200 hover:text-electric-cyan uppercase tracking-wider"
-            >
-              Partnerships
-            </button>
-            <button
-              onClick={() => { onPageChange('leads'); setMobileMenuOpen(false); }}
+              onClick={() => { onPageChange('schedule'); setMobileMenuOpen(false); }}
               className="text-left py-2 font-sans font-bold text-sm text-electric-cyan hover:text-white uppercase tracking-wider flex items-center gap-2"
             >
-              <span className="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></span>
-              Enquiries Console
+              <span className="w-2 h-2 rounded-full bg-electric-cyan animate-pulse"></span>
+              Schedule Meeting
             </button>
+
+
           </div>
           <div className="pt-4 border-t border-white/10">
             <button

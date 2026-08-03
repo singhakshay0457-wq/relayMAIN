@@ -200,31 +200,31 @@ export default function ContactPage() {
         <div className="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl space-y-6">
           <div className="flex items-center gap-2.5 text-brand-primary border-b border-white/5 pb-4">
             <MessageSquare className="w-5 h-5 text-electric-cyan" />
-            <h2 className="font-sans font-bold text-lg text-white">Free Trial & Lead Intake Form</h2>
+            <h2 className="font-sans font-bold text-lg text-white">Contact Us & Direct Message</h2>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Full Name</label>
+                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Full Name *</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Sarah Connor"
+                  placeholder="John Smith"
                   className="w-full bg-[#050507] border border-white/10 rounded-lg py-2.5 px-4 text-xs text-white focus:outline-none focus:border-brand-primary placeholder:text-brand-text-muted/30"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Work Email</label>
+                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Work Email *</label>
                 <input
                   type="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="sconnor@cyberdyne.org"
+                  placeholder="john@company.com"
                   className="w-full bg-[#050507] border border-white/10 rounded-lg py-2.5 px-4 text-xs text-white focus:outline-none focus:border-brand-primary placeholder:text-brand-text-muted/30"
                 />
               </div>
@@ -232,19 +232,19 @@ export default function ContactPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Company Name</label>
+                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Company / Organization *</label>
                 <input
                   type="text"
                   required
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                  placeholder="Cyberdyne Systems"
+                  placeholder="Acme Corp"
                   className="w-full bg-[#050507] border border-white/10 rounded-lg py-2.5 px-4 text-xs text-white focus:outline-none focus:border-brand-primary placeholder:text-brand-text-muted/30"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Lead Volume</label>
+                <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Monthly Lead Volume</label>
                 <select
                   value={formData.volume}
                   onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
@@ -259,32 +259,43 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Inquiry Scope / Message</label>
+              <label className="block text-[11px] font-mono text-brand-text-muted mb-1.5 uppercase">Your Message / Requirements *</label>
               <textarea
                 rows={4}
+                required
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Briefly tell us what you would like your automated system to achieve..."
+                placeholder="Write your message here... (e.g. We would like to implement AI voice bots and social media automation for our sales team)"
                 className="w-full bg-[#050507] border border-white/10 rounded-lg py-2.5 px-4 text-xs text-white focus:outline-none focus:border-brand-primary placeholder:text-brand-text-muted/30 resize-none"
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-bold text-xs uppercase tracking-wider cursor-pointer transition-all ${
-                submitting
-                  ? 'bg-brand-surface-elevated text-brand-text-muted border border-white/5 cursor-not-allowed'
-                  : 'primary-gradient-bg text-black hover:brightness-110 active:scale-95 shadow-md shadow-electric-blue/15'
-              }`}
-            >
-              {submitting ? 'Activating Free Trial...' : 'Start Free Trial & Boost Marketing'}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <button
+                type="submit"
+                disabled={submitting}
+                className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg font-bold text-xs uppercase tracking-wider cursor-pointer transition-all ${
+                  submitting
+                    ? 'bg-brand-surface-elevated text-brand-text-muted border border-white/5 cursor-not-allowed'
+                    : 'primary-gradient-bg text-black hover:brightness-110 active:scale-95 shadow-md shadow-electric-blue/15'
+                }`}
+              >
+                <Mail className="w-4 h-4" />
+                <span>{submitting ? 'Sending Message...' : 'Send Message to sales@relayaitechnologies.com'}</span>
+              </button>
+
+              <a
+                href={`mailto:sales@relayaitechnologies.com?subject=Contact%20Us%20Inquiry%20from%20${encodeURIComponent(formData.name || 'Website Visitor')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\nMessage: ${formData.message}`)}`}
+                className="px-4 py-3.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-sans text-xs font-bold uppercase tracking-wider transition-all text-center flex items-center justify-center gap-1.5 border border-white/10"
+              >
+                <span>Open Email App</span>
+              </a>
+            </div>
 
             {submitSuccess && (
               <div className="flex items-center gap-2 text-xs text-green-400 font-mono animate-slide-in p-3.5 rounded-lg bg-green-500/10 border border-green-500/20">
                 <Check className="w-4 h-4 shrink-0" />
-                <span>Success! Free Trial activated. Relay AI is ready to handle your marketing!</span>
+                <span>Message submitted! A copy has been routed to sales@relayaitechnologies.com. Our team will get back to you shortly.</span>
               </div>
             )}
           </form>

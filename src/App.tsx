@@ -3,13 +3,12 @@ import { ActivePage } from './types';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
-import ServicesPage from './components/ServicesPage';
-import IndustriesPage from './components/IndustriesPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import LeadsPage from './components/LeadsPage';
 import SecurityPage from './components/SecurityPage';
 import PartnershipsPage from './components/PartnershipsPage';
+import MeetingScheduler from './components/MeetingScheduler';
 import TrialModal from './components/TrialModal';
 
 export default function App() {
@@ -54,16 +53,11 @@ export default function App() {
             onNavigateToMarketing={() => handlePageChange('contact')} 
           />
         )}
-        {activePage === 'services' && (
-          <ServicesPage onBookDemo={handleStartTrial} />
-        )}
-        {activePage === 'industries' && (
-          <IndustriesPage onBookDemo={handleStartTrial} />
-        )}
         {activePage === 'about' && (
           <AboutPage onBookDemo={handleStartTrial} />
         )}
         {activePage === 'contact' && <ContactPage />}
+        {activePage === 'schedule' && <MeetingScheduler />}
         {activePage === 'leads' && <LeadsPage onBookDemo={handleStartTrial} />}
         {activePage === 'partnerships' && <PartnershipsPage onBookDemo={handleStartTrial} />}
         {activePage === 'security' && <SecurityPage initialTab={securityTab} />}
