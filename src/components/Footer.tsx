@@ -1,23 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ActivePage } from '../types';
-import { Mail, Check, Terminal, Instagram, Facebook, Twitter, ArrowUpRight } from 'lucide-react';
+import { Mail, Terminal, Instagram, ArrowUpRight } from 'lucide-react';
 
 interface FooterProps {
   onPageChange: (page: ActivePage, initialTab?: 'security' | 'privacy' | 'terms' | 'about') => void;
 }
 
 export default function Footer({ onPageChange }: FooterProps) {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 5000);
-  };
-
   const handleScrollToSection = (sectionId: string) => {
     onPageChange('home');
     setTimeout(() => {
@@ -103,39 +92,12 @@ export default function Footer({ onPageChange }: FooterProps) {
           </div>
         </div>
 
-        {/* Bottom Bar & Newsletter */}
+        {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-xs text-brand-text-muted text-center md:text-left">
             © {new Date().getFullYear()} Relay AI Technologies Inc. All rights reserved. Powered by Autonomous AI Agents.
           </p>
-
-          <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-text-muted" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter work email..."
-                className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg py-2 pl-9 pr-3 text-xs text-white focus:outline-none focus:border-electric-cyan transition-colors"
-              />
-            </div>
-            <button
-              type="submit"
-              className="primary-gradient-bg text-black font-sans font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
-            >
-              Get Updates
-            </button>
-          </form>
         </div>
-
-        {subscribed && (
-          <div className="mt-3 text-center md:text-right text-xs text-electric-cyan font-mono flex items-center justify-center md:justify-end gap-1.5">
-            <Check className="w-3.5 h-3.5" />
-            <span>Subscribed to Relay AI Insights.</span>
-          </div>
-        )}
       </div>
     </footer>
   );

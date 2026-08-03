@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Compass, Sparkles, ArrowRight, Zap } from 'lucide-react';
+import { Target, Compass, Sparkles } from 'lucide-react';
 
 interface AboutPageProps {
   onBookDemo: () => void;
@@ -20,9 +20,20 @@ export default function AboutPage({ onBookDemo }: AboutPageProps) {
           Smarter, Faster, and More Effective Growth
         </h1>
         
-        <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
-          At Relay, we believe every business deserves smarter, faster, and more effective growth. We are a results-driven AI marketing and automation agency that helps businesses generate leads, streamline operations, and build a stronger digital presence.
-        </p>
+        <div className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto space-y-4">
+          <p>
+            At Relay, we believe every business deserves smarter, faster, and more effective growth. We are a results-driven AI marketing and automation agency that helps businesses generate leads, streamline operations, and build a stronger digital presence.
+          </p>
+          <p>
+            Our expertise combines artificial intelligence, digital marketing, website development, CRM automation, content creation, and social media management to create solutions that save time, improve customer experiences, and drive measurable growth.
+          </p>
+          <p>
+            We don’t believe in one-size-fits-all strategies. Every business is unique, which is why we take the time to understand your goals, challenges, and vision before building a tailored growth plan that delivers real results.
+          </p>
+          <p>
+            Whether you’re a startup looking to establish your brand or an established business ready to scale, Relay becomes your trusted growth partner—leveraging technology, creativity, and data-driven strategies to help you stay ahead in an ever-evolving digital world.
+          </p>
+        </div>
       </section>
 
       {/* Mission & Vision Section */}
@@ -58,27 +69,6 @@ export default function AboutPage({ onBookDemo }: AboutPageProps) {
           </p>
         </div>
 
-      </section>
-
-      {/* Call to Action Bar */}
-      <section className="glass-card p-8 sm:p-10 rounded-3xl border border-electric-cyan/40 bg-gradient-to-r from-[#050507] via-[#0A0E22] to-[#050507] flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="space-y-2 text-center sm:text-left">
-          <h3 className="font-sans font-bold text-xl sm:text-2xl text-white">
-            Ready to partner with Relay AI?
-          </h3>
-          <p className="text-xs sm:text-sm text-brand-text-muted">
-            Let's build a custom growth roadmap designed specifically for your business goals.
-          </p>
-        </div>
-
-        <button
-          onClick={onBookDemo}
-          className="primary-gradient-bg text-black font-sans text-xs font-black uppercase tracking-wider py-3.5 px-7 rounded-xl hover:brightness-110 active:scale-95 transition-all cursor-pointer shadow-lg shadow-electric-blue/20 flex items-center gap-2 shrink-0"
-        >
-          <Zap className="w-4 h-4" />
-          <span>Book Free Consultation</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
       </section>
 
     </div>

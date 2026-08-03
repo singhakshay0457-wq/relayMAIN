@@ -397,43 +397,7 @@ export default function HomePage({ onStartTrial, onNavigateToMarketing }: HomePa
       </section>
 
 
-      {/* ==========================================
-          3. HOW WE WORK (4 Steps)
-         ========================================== */}
-      <section id="how-we-work" className="space-y-12 pt-8">
-        <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-widest text-electric-cyan font-bold px-3.5 py-1 bg-electric-cyan/10 rounded-full border border-electric-cyan/20">
-            Our Proven Growth Framework
-          </span>
-          <h2 className="font-sans font-black text-3xl sm:text-5xl text-white tracking-tight">
-            How We Work
-          </h2>
-          <p className="text-sm sm:text-base text-brand-text-muted leading-relaxed">
-            A structured four-phase process designed for speed, clarity, and rapid business scaling.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {processSteps.map((p, idx) => (
-            <div key={idx} className="glass-card p-7 rounded-2xl border border-white/10 space-y-4 relative bg-[#06070E] flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-3xl font-black text-electric-cyan opacity-80">{p.number}</span>
-                  <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-electric-cyan">
-                    <p.icon className="w-4 h-4" />
-                  </div>
-                </div>
-                <h3 className="font-sans font-bold text-lg text-white">{p.title}</h3>
-                <p className="text-xs text-brand-text-muted leading-relaxed">{p.desc}</p>
-              </div>
-
-              <div className="pt-2 border-t border-white/5 text-[10px] font-mono text-electric-cyan font-bold uppercase tracking-wider">
-                Phase {p.number} Milestone
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ==========================================
           4. CALENDAR MEETING SCHEDULER SECTION
